@@ -1,0 +1,22 @@
+version: '2'
+services:
+  postgres:
+    restart: always
+    image: postgres:11.2
+    environment:
+      - POSTGRES_USER=aslan
+      - POSTGRES_PASSWORD=pwd0123456789
+      - POSTGRES_DB=tal_capital
+    ports:
+      - "5433:5432"
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    links:
+      - postgres
